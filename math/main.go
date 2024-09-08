@@ -6,6 +6,7 @@ import (
 	"strings"
 )
 
+// 母分散σ**2
 func getVariance(input []int) float64 {
 	if len(input) == 0 {
 		return 0.0
@@ -22,17 +23,39 @@ func getVariance(input []int) float64 {
 	return total * (1 / float64(N))
 }
 
+// 標本分散
+func getSampleVariance(input []int) float64 {
+	if len(input) == 0 {
+		return 0.0
+	}
+
+	N := len(input)
+	AVE := getAverage(input)
+
+	var total float64
+	for _, n := range input {
+		total += math.Pow(float64(n)-AVE, 2)
+	}
+
+	return total * (1 / float64(N-1))
+}
+
+// 標準偏差σ
 func getSigma(input []int) float64 {
 	return math.Sqrt(getVariance(input))
 }
 
-func getAverage(params []int) float64 {
+func getAverage(input []int) float64 {
+	if len(input) == 0 {
+		return 0.0
+	}
+
 	var total int
-	for _, v := range params {
+	for _, v := range input {
 		total += v
 	}
 
-	return float64(total) / float64((len(params)))
+	return float64(total) / float64((len(input)))
 }
 
 func main() {
